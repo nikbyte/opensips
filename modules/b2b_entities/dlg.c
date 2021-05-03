@@ -494,6 +494,7 @@ b2b_dlg_t* b2bl_search_iteratively(str* callid, str* from_tag, str* ruri,
 		unsigned int hash_index)
 {
 	b2b_dlg_t* dlg= NULL;
+	b2b_dlg_t* found_dlg= NULL;
 
 	LM_DBG("Search for record with callid= %.*s, tag= %.*s\n",
 			callid->len, callid->s, from_tag->len, from_tag->s);
@@ -510,13 +511,13 @@ b2b_dlg_t* b2bl_search_iteratively(str* callid, str* from_tag, str* ruri,
 			strncmp(dlg->tag[CALLER_LEG].s, from_tag->s, from_tag->len)== 0)
 		{
 			if(!ruri)
-				break;
-			if(ruri->len == dlg->ruri.len && strncmp(ruri->s, dlg->ruri.s, ruri->len)== 0)
-				break;
+				found_dlg = dlg;
+			else if(ruri->len == dlg->ruri.len && strncmp(ruri->s, dlg->ruri.s, ruri->len)== 0)
+				found_dlg = dlg;
 		}
 		dlg = dlg->next;
 	}
-	return dlg;
+	return found_dlg;
 }
 
 void b2b_run_cb(b2b_dlg_t *dlg, unsigned int hash_index, int entity_type,
