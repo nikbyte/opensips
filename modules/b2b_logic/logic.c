@@ -3396,6 +3396,7 @@ error:
 	if(tuple)
 	{
 		b2bl_delete(tuple, hash_index, 1, 1);
+		tuple = 0;
 		lock_release(&b2bl_htable[hash_index].lock);
 	}
 	if(to_uri.s)
@@ -4144,6 +4145,7 @@ int b2bl_bridge_2calls(str* key1, str* key2)
 		goto error;
 	}
 	b2bl_delete(tuple, hash_index, 1, 1);
+	tuple = 0;
 
 	lock_release(&b2bl_htable[hash_index].lock);
 
